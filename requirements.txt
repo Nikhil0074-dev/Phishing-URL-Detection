@@ -1,0 +1,22 @@
+# Core data science
+numpy
+pandas
+scipy
+scikit-learn
+xgboost
+
+# Explainability
+shap
+
+# Visualization
+matplotlib
+seaborn
+
+# Web application
+flask
+
+# Model persistence
+joblib
+
+# Testing
+pytest
