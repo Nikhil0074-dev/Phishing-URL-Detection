@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Check a URL - Phishing URL Detection{% endblock %}
+
+{% block content %}
+<h1>Is this URL phishing or legitimate?</h1>
+<p class="lede">
+  Paste a link. The system extracts {{ feature_count }} lexical and structural features from the
+  URL string alone, runs the trained classifiers, and reports a risk score with the
+  factors that drove it.
+</p>
+
+{% if not ready %}
+<div class="notice">
+  <strong>No trained models yet.</strong>
+  Build the dataset and train first:
+  <code>python scripts/build_dataset.py</code> then <code>python -m app.ml.train</code>,
+  then reload this page.
+</div>
+{% endif %}
+
+<section class="intake">
+  <div class="intake-row">
+    <label class="hidden" for="url-input">URL to check</label>
+    <input id="url-input" class="url-input" type="text" spellcheck="false"
+           placeholder="https://example.com/account/login" autocomplete="off">
+    <label class="hidden" for="model-select">Model</label>
+    <select id="model-select" class="model-select">
+      <option value="">Best available model</option>
+      {% for model in models if model.trained %}
+      <option value="{{ model.name }}">{{ model.display_name }}</option>
+      {% endfor %}
+    </select>
+    <button id="check-button" type="button">Check URL</button>
+    <button id="compare-button" type="button" class="ghost">Run all models</button>
+  </div>
+  <p class="samples">
+    Try:
+    <button type="button" class="sample">https://github.com/explore</button>
+    <button type="button" class="sample">http://secure-login.paypal-verify9.xyz/account/confirm.php</button>
+    <button type="button" class="sample">http://192.168.44.9:8080/signin/update</button>
+  </p>
+  <p class="message" id="message"></p>
+</section>
+
+<section id="result" class="hidden">
+  <div class="panel" id="verdict-panel">
+    <div class="verdict">
+      <div class="verdict-score" id="risk-score">0%</div>
+      <div class="verdict-body">
+        <div class="verdict-label" id="verdict-label">Legitimate</div>
+        <div class="verdict-url" id="result-url"></div>
+        <div class="meter"><span id="risk-meter" style="width: 0%"></span></div>
+        <div class="meta" id="result-meta"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-two">
+    <div class="panel">
+      <h2>What drove this score</h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="numeric">Value</th>
+              <th>Level</th>
+              <th class="numeric">Weight</th>
+            </tr>
+          </thead>
+          <tbody id="factors"></tbody>
+        </table>
+      </div>
+      <p class="meta" id="explanation-note"></p>
+    </div>
+
+    <div class="panel">
+      <h2>Patterns found in the URL</h2>
+      <ul class="indicator-list" id="indicators"></ul>
+      <p class="meta" id="no-indicators"></p>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="models-panel">
+    <h2>Model by model</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Prediction</th>
+            <th class="numeric">Risk</th>
+            <th class="numeric">Time (ms)</th>
+          </tr>
+        </thead>
+        <tbody id="model-rows"></tbody>
+      </table>
+    </div>
+    <p class="meta" id="consensus-note"></p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+{% endblock %}

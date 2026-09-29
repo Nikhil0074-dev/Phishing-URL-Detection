@@ -1,0 +1,36 @@
+/* Dashboard specific layout: comparison bars and metric strips. */
+
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.metric-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.metric-card .stat-value { font-size: 26px; }
+
+.leader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.leader-name { font-size: 20px; font-weight: 620; }
+.leader-score { font-family: var(--mono); color: var(--safe); }
+
+.figure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.figure-grid figure { margin: 0; }
+.figure-grid img { width: 100%; border: 1px solid var(--line); border-radius: var(--radius); }
+.figure-grid figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+@media (max-width: 760px) {
+  .metric-strip { grid-template-columns: repeat(2, 1fr); }
+  .figure-grid { grid-template-columns: 1fr; }
+}

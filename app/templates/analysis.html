@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Feature analysis - Phishing URL Detection{% endblock %}
+
+{% block content %}
+<h1>Feature analysis</h1>
+<p class="lede">
+  {{ feature_count }} features are extracted from every URL, grouped into four
+  families. This page shows which ones the leading model relies on most, and
+  the research experiments run to check that reliance.
+</p>
+
+<div class="grid-two">
+  <div class="panel">
+    <h2>Feature groups</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Group</th><th class="numeric">Count</th></tr></thead>
+        <tbody>
+          {% for group, count in feature_groups.items() %}
+          <tr><td>{{ group|capitalize }}</td><td class="numeric">{{ count }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Top features - {{ importance.model if importance.available else "n/a" }}</h2>
+    {% if importance.available %}
+      {% for feature, value in importance.feature_importance.items() %}
+        {% if loop.index <= 12 %}
+        <div class="bar-row">
+          <span class="bar-label">{{ feature }}</span>
+          <div class="bar-track"><div class="bar-fill" data-bar-fill="{{ value }}" data-bar-max="{{ importance.top_features and 1 or 1 }}"></div></div>
+          <span class="bar-value">{{ "%.3f"|format(value) }}</span>
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p class="meta">{{ importance.reason }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Research experiments</h2>
+  {% if experiments.available %}
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Experiment</th><th>Summary</th></tr>
+        </thead>
+        <tbody>
+          {% for exp in experiments.experiments %}
+          <tr>
+            <td>{{ exp.name }}</td>
+            <td class="meta">{{ exp.summary }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if experiments.hypothesis_test %}
+    <h3 style="margin-top:20px;">Hypothesis test (H0 vs H1)</h3>
+    <p class="meta">{{ experiments.hypothesis_test.interpretation }}
+      (Friedman statistic {{ "%.3f"|format(experiments.hypothesis_test.statistic) }},
+      p = {{ "%.5f"|format(experiments.hypothesis_test.p_value) }})</p>
+    {% endif %}
+  {% else %}
+    <p class="meta">{{ experiments.reason }}</p>
+  {% endif %}
+</div>
+{% endblock %}

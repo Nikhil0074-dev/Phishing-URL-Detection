@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Models - Phishing URL Detection{% endblock %}
+
+{% block content %}
+<h1>Machine learning models</h1>
+<p class="lede">
+  Seven classifiers are trained on the same features and the same train/test
+  split, so the comparison below isolates the effect of the algorithm.
+</p>
+
+<div class="panel">
+  <h2>Registry</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Status</th>
+          <th>Needs scaling</th>
+          <th class="numeric">Accuracy</th>
+          <th class="numeric">F1</th>
+          <th class="numeric">ROC AUC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for model in models %}
+        <tr>
+          <td>{{ model.display_name }}</td>
+          <td>
+            {% if model.trained %}
+            <span class="tag tag-ready">trained</span>
+            {% else %}
+            <span class="tag tag-missing">not trained</span>
+            {% endif %}
+          </td>
+          <td>{{ "yes" if model.needs_scaling else "no" }}</td>
+          <td class="numeric">{{ "%.4f"|format(model.accuracy) if model.accuracy is not none else "-" }}</td>
+          <td class="numeric">{{ "%.4f"|format(model.f1_score) if model.f1_score is not none else "-" }}</td>
+          <td class="numeric">{{ "%.4f"|format(model.roc_auc) if model.roc_auc is not none else "-" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if comparison %}
+<div class="panel">
+  <h2>Ranked by F1 score</h2>
+  {% for row in comparison %}
+  <div class="bar-row">
+    <span class="bar-label">{{ row.display_name }}</span>
+    <div class="bar-track"><div class="bar-fill" data-bar-fill="{{ row.f1_score }}" data-bar-max="1"></div></div>
+    <span class="bar-value">{{ "%.3f"|format(row.f1_score) }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="panel">
+  <h2>What each model brings</h2>
+  <div class="grid-two">
+    <div>
+      <h3>Logistic Regression</h3>
+      <p class="meta">Linear baseline. Fast, interpretable coefficients, a useful lower bound for the others.</p>
+      <h3>Naive Bayes</h3>
+      <p class="meta">Probabilistic baseline that assumes feature independence; usually the fastest to train.</p>
+      <h3>Decision Tree</h3>
+      <p class="meta">A single tree of interpretable if/else rules over the URL features.</p>
+      <h3>Random Forest</h3>
+      <p class="meta">An ensemble of decision trees; typically more accurate and less prone to overfitting than one tree.</p>
+    </div>
+    <div>
+      <h3>SVM</h3>
+      <p class="meta">Finds a maximum-margin boundary in the scaled feature space; strong on high-dimensional data.</p>
+      <h3>XGBoost</h3>
+      <p class="meta">Gradient boosted trees added one at a time to correct earlier errors; often the top performer here.</p>
+      <h3>ANN</h3>
+      <p class="meta">A small multi-layer perceptron; can capture non-linear feature interactions the linear models miss.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

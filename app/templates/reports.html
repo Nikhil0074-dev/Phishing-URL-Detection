@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Reports - Phishing URL Detection{% endblock %}
+
+{% block content %}
+<h1>Reports</h1>
+<p class="lede">Generated summaries for the dissertation write-up.</p>
+
+<div class="panel">
+  <h2>Model comparison</h2>
+  {% if report.available %}
+  <p class="meta">Generated {{ report.generated_at }} - {{ report.models_evaluated }} models evaluated.</p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th><th class="numeric">Accuracy</th><th class="numeric">Precision</th>
+          <th class="numeric">Recall</th><th class="numeric">F1</th><th class="numeric">ROC AUC</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in report.comparison %}
+        <tr>
+          <td>{{ row.display_name }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.accuracy) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.precision) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.recall) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.f1_score) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.roc_auc) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="meta" style="margin-top:14px;">
+    A CSV copy of this table is written to <code>reports/generated/model_comparison.csv</code>
+    and the supporting figures to <code>reports/figures/</code> on each training run.
+  </p>
+  {% else %}
+  <p class="meta">No report yet. Run <code>python -m app.ml.train</code>.</p>
+  {% endif %}
+</div>
+
+<div class="panel">
+  <h2>Experiments</h2>
+  {% if experiments.available %}
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Experiment</th><th>Summary</th></tr></thead>
+      <tbody>
+        {% for exp in experiments.experiments %}
+        <tr><td>{{ exp.name }}</td><td class="meta">{{ exp.summary }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="meta">{{ experiments.reason }}</p>
+  {% endif %}
+</div>
+{% endblock %}

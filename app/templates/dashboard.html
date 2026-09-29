@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Phishing URL Detection{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Model analysis dashboard</h1>
+<p class="lede">
+  A snapshot of the most recent training run: how the seven algorithms compare
+  and which features carry the most weight in the leading model.
+</p>
+
+{% if not data.comparison %}
+<div class="notice">
+  No metrics yet. Run <code>python -m app.ml.train</code> to populate this page.
+</div>
+{% else %}
+<div class="metric-strip">
+  <div class="metric-card">
+    <div class="stat"><span class="stat-value">{{ data.models_tested }}</span><span class="stat-label">Models tested</span></div>
+  </div>
+  <div class="metric-card">
+    <div class="stat"><span class="stat-value">{{ data.feature_count }}</span><span class="stat-label">Features extracted</span></div>
+  </div>
+  <div class="metric-card">
+    <div class="stat"><span class="stat-value">{{ "%.1f"|format(data.mean_accuracy * 100) }}%</span><span class="stat-label">Mean accuracy</span></div>
+  </div>
+  <div class="metric-card">
+    <div class="leader">
+      <span class="leader-name">{{ data.best_model.display_name }}</span>
+      <span class="leader-score">{{ "%.1f"|format(data.best_model.f1_score * 100) }}% F1</span>
+    </div>
+    <span class="stat-label">Best model</span>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Accuracy, precision, recall, F1 by model</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="numeric">Accuracy</th>
+          <th class="numeric">Precision</th>
+          <th class="numeric">Recall</th>
+          <th class="numeric">F1</th>
+          <th class="numeric">FPR</th>
+          <th class="numeric">Train (s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data.comparison %}
+        <tr>
+          <td>{{ row.display_name }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.accuracy) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.precision) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.recall) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.f1_score) }}</td>
+          <td class="numeric">{{ "%.4f"|format(row.false_positive_rate) }}</td>
+          <td class="numeric">{{ "%.2f"|format(row.training_time) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if data.top_features %}
+<div class="panel">
+  <h2>Top contributing features - {{ data.best_model.display_name }}</h2>
+  {% for item in data.top_features %}
+  <div class="bar-row">
+    <span class="bar-label">{{ item.feature }}</span>
+    <div class="bar-track"><div class="bar-fill" data-bar-fill="{{ item.importance }}" data-bar-max="{{ data.top_features[0].importance }}"></div></div>
+    <span class="bar-value">{{ "%.3f"|format(item.importance) }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="panel">
+  <h2>Figures from the training run</h2>
+  <div class="figure-grid">
+    <figure>
+      <img src="{{ url_for('report_figures', filename='model_comparison.png') }}" alt="Bar chart comparing accuracy, precision, recall and F1 across all seven models" onerror="this.closest('figure').style.display='none'">
+      <figcaption>Model comparison across the four headline metrics.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('report_figures', filename='roc_curves.png') }}" alt="ROC curves for every model" onerror="this.closest('figure').style.display='none'">
+      <figcaption>ROC curves, one line per model.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('report_figures', filename='confusion_matrix.png') }}" alt="Confusion matrix for the best performing model" onerror="this.closest('figure').style.display='none'">
+      <figcaption>Confusion matrix for the leading model.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('report_figures', filename='class_distribution.png') }}" alt="Bar chart of legitimate versus phishing URL counts" onerror="this.closest('figure').style.display='none'">
+      <figcaption>Class balance in the training set.</figcaption>
+    </figure>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
