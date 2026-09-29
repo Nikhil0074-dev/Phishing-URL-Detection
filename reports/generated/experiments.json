@@ -1,0 +1,505 @@
+{
+  "generated_in_seconds": 523.68,
+  "dataset_size": 15635,
+  "feature_count": 62,
+  "experiments": [
+    {
+      "name": "Experiment 1 - Algorithm comparison",
+      "summary": "Logistic Regression scored highest on the held-out test set (F1 = 0.9001); Naive Bayes scored lowest (F1 = 0.5793).",
+      "results": [
+        {
+          "model": "logistic_regression",
+          "display_name": "Logistic Regression",
+          "test_f1": 0.9001396648044693,
+          "cv_f1_mean": 0.8962447410720553,
+          "cv_f1_std": 0.004730308490997664
+        },
+        {
+          "model": "svm",
+          "display_name": "SVM",
+          "test_f1": 0.8999305072967339,
+          "cv_f1_mean": 0.8948597349379647,
+          "cv_f1_std": 0.004992657810149673
+        },
+        {
+          "model": "ann",
+          "display_name": "ANN",
+          "test_f1": 0.8997867803837953,
+          "cv_f1_mean": 0.8960914798072667,
+          "cv_f1_std": 0.005419984622827218
+        },
+        {
+          "model": "xgboost",
+          "display_name": "XGBoost",
+          "test_f1": 0.8957098011859086,
+          "cv_f1_mean": 0.8917145412555134,
+          "cv_f1_std": 0.007733014481535528
+        },
+        {
+          "model": "random_forest",
+          "display_name": "Random Forest",
+          "test_f1": 0.8898891966759003,
+          "cv_f1_mean": 0.8844866678060435,
+          "cv_f1_std": 0.006241761623941458
+        },
+        {
+          "model": "decision_tree",
+          "display_name": "Decision Tree",
+          "test_f1": 0.8501550120564932,
+          "cv_f1_mean": 0.853704936014565,
+          "cv_f1_std": 0.008144204468915704
+        },
+        {
+          "model": "naive_bayes",
+          "display_name": "Naive Bayes",
+          "test_f1": 0.5792771084337349,
+          "cv_f1_mean": 0.5508079482164338,
+          "cv_f1_std": 0.006973527742628394
+        }
+      ],
+      "cross_validation": {
+        "logistic_regression": {
+          "model": "logistic_regression",
+          "display_name": "Logistic Regression",
+          "scoring": "f1",
+          "fold_scores": [
+            0.8891976380687738,
+            0.8983468167428772,
+            0.893046240734204,
+            0.8976323119777159,
+            0.9030006978367062
+          ],
+          "mean": 0.8962447410720553,
+          "std": 0.004730308490997664
+        },
+        "naive_bayes": {
+          "model": "naive_bayes",
+          "display_name": "Naive Bayes",
+          "scoring": "f1",
+          "fold_scores": [
+            0.5484029484029485,
+            0.5396825396825397,
+            0.560856864654333,
+            0.5507389162561577,
+            0.55435847208619
+          ],
+          "mean": 0.5508079482164338,
+          "std": 0.006973527742628394
+        },
+        "decision_tree": {
+          "model": "decision_tree",
+          "display_name": "Decision Tree",
+          "scoring": "f1",
+          "fold_scores": [
+            0.842395044735031,
+            0.8549458231387627,
+            0.8485477178423236,
+            0.8667802385008518,
+            0.8558558558558559
+          ],
+          "mean": 0.853704936014565,
+          "std": 0.008144204468915704
+        },
+        "random_forest": {
+          "model": "random_forest",
+          "display_name": "Random Forest",
+          "scoring": "f1",
+          "fold_scores": [
+            0.8776928422515636,
+            0.8834269662921348,
+            0.8797756747283562,
+            0.885952712100139,
+            0.8955851436580238
+          ],
+          "mean": 0.8844866678060435,
+          "std": 0.006241761623941458
+        },
+        "svm": {
+          "model": "svm",
+          "display_name": "SVM",
+          "scoring": "f1",
+          "fold_scores": [
+            0.8949389179755672,
+            0.8918539325842697,
+            0.8874079270431428,
+            0.8982873121286263,
+            0.9018105849582173
+          ],
+          "mean": 0.8948597349379647,
+          "std": 0.004992657810149673
+        },
+        "xgboost": {
+          "model": "xgboost",
+          "display_name": "XGBoost",
+          "scoring": "f1",
+          "fold_scores": [
+            0.8876443822191109,
+            0.8937677053824362,
+            0.8813440672033601,
+            0.8910546467107553,
+            0.9047619047619048
+          ],
+          "mean": 0.8917145412555134,
+          "std": 0.007733014481535528
+        },
+        "ann": {
+          "model": "ann",
+          "display_name": "ANN",
+          "scoring": "f1",
+          "fold_scores": [
+            0.8956796628029505,
+            0.8959081119885139,
+            0.8870796460176991,
+            0.8977871443624869,
+            0.9040028338646829
+          ],
+          "mean": 0.8960914798072667,
+          "std": 0.005419984622827218
+        }
+      },
+      "hypothesis_test": {
+        "test": "friedman",
+        "performed": true,
+        "models": [
+          "logistic_regression",
+          "naive_bayes",
+          "decision_tree",
+          "random_forest",
+          "svm",
+          "xgboost",
+          "ann"
+        ],
+        "statistic": 25.542857142857144,
+        "p_value": 0.00027080144232296215,
+        "alpha": 0.05,
+        "reject_null_hypothesis": true,
+        "interpretation": "H0 is rejected: the algorithms differ significantly."
+      }
+    },
+    {
+      "name": "Experiment 2 - Feature group comparison",
+      "summary": "'lexical_structural' (56 features) gave the best Random Forest F1 (0.8918) among the feature subsets tested.",
+      "results": [
+        {
+          "feature_subset": "lexical_structural",
+          "num_features": 56,
+          "accuracy": 0.9002238567316917,
+          "f1_score": 0.8918169209431346,
+          "roc_auc": 0.9596263038115593
+        },
+        {
+          "feature_subset": "all_features",
+          "num_features": 62,
+          "accuracy": 0.8983050847457628,
+          "f1_score": 0.8898891966759003,
+          "roc_auc": 0.960520898860122
+        },
+        {
+          "feature_subset": "structural_only",
+          "num_features": 30,
+          "accuracy": 0.889350815478094,
+          "f1_score": 0.8802768166089966,
+          "roc_auc": 0.9552504866135975
+        },
+        {
+          "feature_subset": "lexical_only",
+          "num_features": 26,
+          "accuracy": 0.7879756955548449,
+          "f1_score": 0.7697117054532824,
+          "roc_auc": 0.8724372507237451
+        },
+        {
+          "feature_subset": "entropy_only",
+          "num_features": 6,
+          "accuracy": 0.7684681803645667,
+          "f1_score": 0.7457865168539326,
+          "roc_auc": 0.8450543261677903
+        }
+      ]
+    },
+    {
+      "name": "Experiment 3 - Feature selection",
+      "summary": "All 62 features scored F1 = 0.8899; the top 25 selected features scored F1 = 0.8802 (no loss).",
+      "all_features": {
+        "count": 62,
+        "accuracy": 0.8983050847457628,
+        "precision": 0.8868184955141477,
+        "recall": 0.8929812369701181,
+        "f1_score": 0.8898891966759003,
+        "specificity": 0.9028436018957346,
+        "false_positive_rate": 0.0971563981042654,
+        "false_negative_rate": 0.10701876302988186,
+        "true_positive": 1285,
+        "true_negative": 1524,
+        "false_positive": 164,
+        "false_negative": 154,
+        "roc_auc": 0.960520898860122,
+        "pr_auc": 0.9589448264087004
+      },
+      "selected_features": {
+        "count": 25,
+        "features": [
+          "url_length",
+          "hostname_length",
+          "num_dots",
+          "num_digits",
+          "num_letters",
+          "num_tokens",
+          "avg_token_length",
+          "digit_ratio",
+          "letter_ratio",
+          "special_character_ratio",
+          "digit_letter_ratio",
+          "has_https",
+          "num_subdomains",
+          "has_digit_in_domain",
+          "subdomain_ratio",
+          "is_suspicious_tld",
+          "is_common_tld",
+          "suspicious_keyword_count",
+          "has_suspicious_keyword",
+          "keyword_in_path",
+          "num_host_labels",
+          "domain_digit_count",
+          "url_entropy",
+          "hostname_entropy",
+          "unique_character_ratio"
+        ],
+        "accuracy": 0.889350815478094,
+        "precision": 0.8771566597653554,
+        "recall": 0.8832522585128562,
+        "f1_score": 0.8801939058171745,
+        "specificity": 0.8945497630331753,
+        "false_positive_rate": 0.10545023696682465,
+        "false_negative_rate": 0.11674774148714386,
+        "true_positive": 1271,
+        "true_negative": 1510,
+        "false_positive": 178,
+        "false_negative": 168,
+        "roc_auc": 0.9551043378596906,
+        "pr_auc": 0.9532276296997484
+      },
+      "top_correlated_features": {
+        "num_dots": 0.529653166706513,
+        "suspicious_keyword_count": 0.5271487920453654,
+        "has_https": 0.5004093815228381,
+        "num_host_labels": 0.46675679290692224,
+        "has_digit_in_domain": 0.4616022161664881,
+        "hostname_length": 0.42983782564755724,
+        "is_suspicious_tld": 0.4140149909346311,
+        "has_suspicious_keyword": 0.41049638654548315,
+        "domain_digit_count": 0.4018510801619722,
+        "num_tokens": 0.40042744131449864,
+        "url_length": 0.39103791514392083,
+        "num_subdomains": 0.39041828440005666,
+        "num_digits": 0.3902082307648013,
+        "url_entropy": 0.39017119501946396,
+        "subdomain_ratio": 0.38036018850186476
+      },
+      "top_random_forest_features": {
+        "has_https": 0.09401428577417507,
+        "suspicious_keyword_count": 0.07239935144724846,
+        "is_suspicious_tld": 0.06392470753497452,
+        "num_dots": 0.059586876910809126,
+        "has_digit_in_domain": 0.04695934993703393,
+        "domain_digit_count": 0.045615793012454636,
+        "hostname_entropy": 0.03559613684955842,
+        "hostname_length": 0.031005347032738672,
+        "url_length": 0.0279374800239229,
+        "has_suspicious_keyword": 0.027151681516831446,
+        "url_entropy": 0.02447659821596938,
+        "digit_ratio": 0.022593004571517722,
+        "num_host_labels": 0.021511219533470433,
+        "letter_ratio": 0.02069169460448634,
+        "num_digits": 0.020680946881280762
+      }
+    },
+    {
+      "name": "Experiment 4 - Generalisation to unseen data",
+      "summary": "On 3868 independently generated holdout URLs, Logistic Regression generalised best (F1 = 0.8722).",
+      "holdout_size": 3868,
+      "results": [
+        {
+          "model": "logistic_regression",
+          "display_name": "Logistic Regression",
+          "accuracy": 0.8981385729058945,
+          "precision": 0.8604353393085787,
+          "recall": 0.8842105263157894,
+          "f1_score": 0.872160934458144,
+          "specificity": 0.9071550255536627,
+          "false_positive_rate": 0.09284497444633731,
+          "false_negative_rate": 0.11578947368421053,
+          "true_positive": 1344,
+          "true_negative": 2130,
+          "false_positive": 218,
+          "false_negative": 176,
+          "roc_auc": 0.9650301488388776,
+          "pr_auc": 0.9533136819232663
+        },
+        {
+          "model": "ann",
+          "display_name": "ANN",
+          "accuracy": 0.8989141675284384,
+          "precision": 0.8701639344262295,
+          "recall": 0.8730263157894737,
+          "f1_score": 0.8715927750410509,
+          "specificity": 0.9156729131175468,
+          "false_positive_rate": 0.08432708688245315,
+          "false_negative_rate": 0.12697368421052632,
+          "true_positive": 1327,
+          "true_negative": 2150,
+          "false_positive": 198,
+          "false_negative": 193,
+          "roc_auc": 0.9643652492602888,
+          "pr_auc": 0.9525521373486261
+        },
+        {
+          "model": "xgboost",
+          "display_name": "XGBoost",
+          "accuracy": 0.8978800413650465,
+          "precision": 0.8636069812540401,
+          "recall": 0.8789473684210526,
+          "f1_score": 0.8712096511248777,
+          "specificity": 0.9101362862010222,
+          "false_positive_rate": 0.08986371379897785,
+          "false_negative_rate": 0.12105263157894737,
+          "true_positive": 1336,
+          "true_negative": 2137,
+          "false_positive": 211,
+          "false_negative": 184,
+          "roc_auc": 0.9633854119967721,
+          "pr_auc": 0.9500840233248771
+        },
+        {
+          "model": "svm",
+          "display_name": "SVM",
+          "accuracy": 0.8973629782833505,
+          "precision": 0.8624919302775984,
+          "recall": 0.8789473684210526,
+          "f1_score": 0.8706419028999675,
+          "specificity": 0.9092844974446337,
+          "false_positive_rate": 0.09071550255536627,
+          "false_negative_rate": 0.12105263157894737,
+          "true_positive": 1336,
+          "true_negative": 2135,
+          "false_positive": 213,
+          "false_negative": 184,
+          "roc_auc": 0.9622523087958399,
+          "pr_auc": 0.946509410565616
+        },
+        {
+          "model": "random_forest",
+          "display_name": "Random Forest",
+          "accuracy": 0.8960703205791106,
+          "precision": 0.8611111111111112,
+          "recall": 0.8769736842105263,
+          "f1_score": 0.8689700130378096,
+          "specificity": 0.9084327086882453,
+          "false_positive_rate": 0.09156729131175469,
+          "false_negative_rate": 0.12302631578947368,
+          "true_positive": 1333,
+          "true_negative": 2133,
+          "false_positive": 215,
+          "false_negative": 187,
+          "roc_auc": 0.9573286055321437,
+          "pr_auc": 0.9405854232718946
+        },
+        {
+          "model": "decision_tree",
+          "display_name": "Decision Tree",
+          "accuracy": 0.8738366080661841,
+          "precision": 0.8295019157088123,
+          "recall": 0.8546052631578948,
+          "f1_score": 0.8418664938431627,
+          "specificity": 0.8862862010221465,
+          "false_positive_rate": 0.1137137989778535,
+          "false_negative_rate": 0.14539473684210527,
+          "true_positive": 1299,
+          "true_negative": 2081,
+          "false_positive": 267,
+          "false_negative": 221,
+          "roc_auc": 0.8936488500851789,
+          "pr_auc": 0.8417705616129907
+        },
+        {
+          "model": "naive_bayes",
+          "display_name": "Naive Bayes",
+          "accuracy": 0.7479317476732161,
+          "precision": 0.9122541603630863,
+          "recall": 0.39671052631578946,
+          "f1_score": 0.5529573590096286,
+          "specificity": 0.975298126064736,
+          "false_positive_rate": 0.024701873935264053,
+          "false_negative_rate": 0.6032894736842105,
+          "true_positive": 603,
+          "true_negative": 2290,
+          "false_positive": 58,
+          "false_negative": 917,
+          "roc_auc": 0.9077158331838967,
+          "pr_auc": 0.8542629942702586
+        }
+      ]
+    },
+    {
+      "name": "Experiment 5 - Error analysis",
+      "summary": "random_forest produced 164 false positives and 154 false negatives out of 3127 test URLs (FPR = 0.0972, FNR = 0.1070).",
+      "model": "random_forest",
+      "false_positive_count": 164,
+      "false_negative_count": 154,
+      "false_positive_rate": 0.0971563981042654,
+      "false_negative_rate": 0.10701876302988186,
+      "false_positive_examples": [
+        "https://secure.secure.works.ga:3000",
+        "http://verification.cdn.technimbusmaple.io",
+        "https://suspended.wkuixjd376kezuge.org/secure/posts/products?q=mxp",
+        "https://mj9nkvu3sst.co/payment/status/reference.html?session=stshdt907b1o3zzeqq&redirect=account&id=8904466&email=3g1tof7%40mail.com",
+        "http://confirm.orbitcedarbridge.in?session=mjfedg7r30ezn&ref=qfmwwm&email=b4c4c4a1o%40mail.com",
+        "https://v3djqgdv2okazl.com/legal/support/suspended/support?id=548678&email=9z4vam8mn5%40mail.com&session=c8x1cl28xdlixd",
+        "https://suspended.shopstudio.site/payment/auth/99ovywg3zl/0syy8pq1br26tje/gyjkwp0r88i.aspx",
+        "https://security.account.solutions528.org",
+        "https://blog.ve0pr8u6cxn.online/signin/lkmeab6zyt7zswwqwg?email=lmtbjj1v8%40mail.com&session=yukbt38ej4fqfdsx47hmx",
+        "http://auth.6iwj7j7hkj7e.net",
+        "https://www.steam-alert.in/forum?session=6bs3zy8q2l10re&id=1377748&email=yobrvpq%40mail.com",
+        "https://ljn2minwhs.info?id=6422032&session=7zpi7mg19j&email=yc9of%40mail.com",
+        "https://login.nju0b1lwhzm1q.in/el98nri9o/services?q=4ms",
+        "https://il4fx6eegl45e.top?q=ef92zgia",
+        "https://secure.verify.k0ixlnicz0j2iv.io/it6uoe56v6464/signin"
+      ],
+      "false_negative_examples": [
+        "https://confirm.swiftshop.com/95cs529o79s8g0so8g?id=1089762&ref=jqthelysxc3&redirect=index",
+        "http://shop.summittech.org/7pyleout",
+        "https://id.digitalnorth.site:8080/secure/qsm09dwjhjui.htm?redirect=home&email=7hktpulgs5%40mail.com",
+        "https://update.dropbox.com/unlock?ref=cabsz&utm_source=ufk89&email=s4kmst%40mail.com&id=1200290",
+        "https://blog.bridge-systems-prime.co/2dnjzuzq9aj9gj3k",
+        "https://confirm.slack.com/grm9i34waek2loq/wz35vqpe73m/contact/3mbrnr4sakn4ib4e",
+        "https://api.amazoninc.com",
+        "https://steamcare.in/suspended",
+        "https://shopdeltadelta.icu/docs/signin",
+        "https://systems.io?utm_source=5f1vp8&email=yxez4u4k7j%40mail.com&id=8592632",
+        "https://www.groupprimecedar.net:8000/secure/payment?ref=evkzmnlt&session=wyynma8qz0&email=p13sx%40mail.com",
+        "https://support.auth.fzeftty.co/4pxrorzcdbu4p/blog?ref=i2zivvpzkxq&email=ajldw9%40mail.com&redirect=index",
+        "http://api.update.labs.co/secure/app",
+        "http://dhl.onyx.io/pricing/b7l4bw1805hkueoqg",
+        "https://payment.stackoverflow.com/login"
+      ]
+    }
+  ],
+  "hypothesis_test": {
+    "test": "friedman",
+    "performed": true,
+    "models": [
+      "logistic_regression",
+      "naive_bayes",
+      "decision_tree",
+      "random_forest",
+      "svm",
+      "xgboost",
+      "ann"
+    ],
+    "statistic": 25.542857142857144,
+    "p_value": 0.00027080144232296215,
+    "alpha": 0.05,
+    "reject_null_hypothesis": true,
+    "interpretation": "H0 is rejected: the algorithms differ significantly."
+  }
+}
